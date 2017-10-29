@@ -175,18 +175,31 @@ function initaliseSearchExample(rows, cols) {
     end.wall = false;
 
     pathfinder = new AStarPathFinder(gamemap, start, end, allowDiagonals);
+    selectedAlgorithm = "A*";
 }
 
-function dijkstra(){
-    pathfinder = new Dijkstra(gamemap, start, end, allowDiagonals);
+function dfs(){
+    pathfinder = new DFS(gamemap, start, end, allowDiagonals);
     steps = 0;
-    selectedAlgorithm = "Dijkstra";
+    selectedAlgorithm = "DFS";
 }
 
 function aStar(){
     pathfinder = new AStarPathFinder(gamemap, start, end, allowDiagonals);
     steps = 0;
     selectedAlgorithm = "A*";
+}
+
+function greedy(){
+    pathfinder = new Greedy(gamemap, start, end, allowDiagonals);
+    steps = 0;
+    selectedAlgorithm = "Greedy";
+}
+
+function bfs(){
+    pathfinder = new BFS(gamemap, start, end, allowDiagonals);
+    steps = 0;
+    selectedAlgorithm = "BFS";
 }
 
 function setup() {
@@ -198,19 +211,18 @@ function setup() {
         var sz = min(windowWidth, windowHeight);
         createCanvas(sz, sz);
     }
-    console.log('A*');
 
     initaliseSearchExample(cols, rows);
     runPauseButton = new Button("run", 430, 25, 50, 30, runpause);
     runAStarButton = new Button("A*", 430, 90, 50, 30, aStar);
-    runBFSButton = new Button("BFS", 430, 120, 50, 30, runpause);
-    runDijkstraButton = new Button("Dijkstra", 430, 150, 50, 30, dijkstra);
-    runGreedyButton = new Button("Greedy", 430, 180, 50, 30, runpause);
+    runBFSButton = new Button("BFS", 430, 120, 50, 30, bfs);
+    runDFSButton = new Button("DFS", 430, 150, 50, 30, dfs);
+    runGreedyButton = new Button("Greedy", 430, 180, 50, 30, greedy);
     runUniformButton = new Button("Uniform", 430, 210, 50, 30, runpause);
 
     uiElements.push(runAStarButton);
     uiElements.push(runPauseButton);
-    uiElements.push(runDijkstraButton);
+    uiElements.push(runDFSButton);
     uiElements.push(runBFSButton);
     uiElements.push(runGreedyButton);   
     uiElements.push(runUniformButton);

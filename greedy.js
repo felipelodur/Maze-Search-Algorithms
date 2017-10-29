@@ -1,5 +1,5 @@
 
-function AStarPathFinder(map, start, end, allowDiagonals) {
+function Greedy(map, start, end, allowDiagonals) {
     this.map = map;
     this.lastCheckedNode = start;
     this.openSet = [];
@@ -10,11 +10,6 @@ function AStarPathFinder(map, start, end, allowDiagonals) {
     this.end = end;
     this.allowDiagonals = allowDiagonals;
 
-    //This function returns a measure of aesthetic preference for
-    //use when ordering the openSet. It is used to prioritise
-    //between equal standard heuristic scores. It can therefore
-    //be anything you like without affecting the ability to find
-    //a minimum cost path.
 
     this.visualDist = function(a, b) {
         return dist(a.i, a.j, b.i, b.j);
@@ -98,12 +93,12 @@ function AStarPathFinder(map, start, end, allowDiagonals) {
                 // Valid next spot?
                 if (!this.closedSet.includes(neighbor)) {
                     // Is this a better path than before?
-                    var tempG = current.g + this.heuristic(neighbor, current);
+                    var tempG = this.heuristic(neighbor, current);
 
                     // Is this a better path than before?
                     if (!this.openSet.includes(neighbor)) {
                         this.openSet.push(neighbor);
-                    } else if (tempG >= neighbor.g) {
+                    } else if (tempG >= neighbor.h) {
                         // No, it's not a better path
                         continue;
                     }
@@ -113,7 +108,7 @@ function AStarPathFinder(map, start, end, allowDiagonals) {
                     if (!allowDiagonals) {
                         neighbor.vh = this.visualDist(neighbor, end);
                     }
-                    neighbor.f = neighbor.g + neighbor.h;
+                    neighbor.f = neighbor.h;
                     neighbor.previous = current;
                 }
 

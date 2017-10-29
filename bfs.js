@@ -1,6 +1,5 @@
-
-function AStarPathFinder(map, start, end, allowDiagonals) {
-    this.map = map;
+function BFS(map, start, end, allowDiagonals) {
+	this.map = map;
     this.lastCheckedNode = start;
     this.openSet = [];
     // openSet starts with beginning node only
@@ -50,33 +49,8 @@ function AStarPathFinder(map, start, end, allowDiagonals) {
 
         if (this.openSet.length > 0) {
 
-            // Best next option
+            // Next option - In the BFS, always the first of the level.
             var winner = 0;
-            for (var i = 1; i < this.openSet.length; i++) {
-                if (this.openSet[i].f < this.openSet[winner].f) {
-                    winner = i;
-                }
-                //if we have a tie according to the standard heuristic
-                if (this.openSet[i].f == this.openSet[winner].f) {
-                    //Prefer to explore options with longer known paths (closer to goal)
-                    if (this.openSet[i].g > this.openSet[winner].g) {
-                        winner = i;
-                    }
-                    //if we're using Manhattan distances then also break ties
-                    //of the known distance measure by using the visual heuristic.
-                    //This ensures that the search concentrates on routes that look
-                    //more direct. This makes no difference to the actual path distance
-                    //but improves the look for things like games or more closely
-                    //approximates the real shortest path if using grid sampled data for
-                    //planning natural paths.
-                    if (!this.allowDiagonals) {
-                        if (this.openSet[i].g == this.openSet[winner].g &&
-                            this.openSet[i].vh < this.openSet[winner].vh) {
-                            winner = i;
-                        }
-                    }
-                }
-            }
             var current = this.openSet[winner];
             this.lastCheckedNode = current;
 
@@ -98,22 +72,8 @@ function AStarPathFinder(map, start, end, allowDiagonals) {
                 // Valid next spot?
                 if (!this.closedSet.includes(neighbor)) {
                     // Is this a better path than before?
+                    this.openSet.push(neighbor);
                     var tempG = current.g + this.heuristic(neighbor, current);
-
-                    // Is this a better path than before?
-                    if (!this.openSet.includes(neighbor)) {
-                        this.openSet.push(neighbor);
-                    } else if (tempG >= neighbor.g) {
-                        // No, it's not a better path
-                        continue;
-                    }
-
-                    neighbor.g = tempG;
-                    neighbor.h = this.heuristic(neighbor, end);
-                    if (!allowDiagonals) {
-                        neighbor.vh = this.visualDist(neighbor, end);
-                    }
-                    neighbor.f = neighbor.g + neighbor.h;
                     neighbor.previous = current;
                 }
 
@@ -123,4 +83,5 @@ function AStarPathFinder(map, start, end, allowDiagonals) {
             return -1;
         }
     }
+
 }
