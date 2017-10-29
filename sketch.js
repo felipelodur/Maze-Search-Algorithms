@@ -12,10 +12,10 @@ var allowDiagonals = true;
 // can the path go between the corners of two
 // walls located diagonally next to each other
 var canPassThroughCorners = false;
-
 var cols = 50;
 var rows = 50;
-
+var selectedAlgorithm = "A*";
+var steps = 0;
 
 // % of cells that are walls
 var percentWalls = (allowDiagonals ? (canPassThroughCorners ? 0.4 : 0.3) : 0.2);
@@ -125,7 +125,7 @@ function step(button) {
 
 function pauseUnpause(pause) {
     paused = pause;
-    runPauseButton.label = paused ? "A*" : "pause";
+    runPauseButton.label = paused ? "run" : "pause";
 }
 
 function runpause(button) {
@@ -133,6 +133,7 @@ function runpause(button) {
 }
 
 function restart(button) {
+    steps = 0;
     logTimings();
     clearTimings();
     initaliseSearchExample(cols, rows);
@@ -174,8 +175,18 @@ function initaliseSearchExample(rows, cols) {
     end.wall = false;
 
     pathfinder = new AStarPathFinder(gamemap, start, end, allowDiagonals);
-    pathfinderDijkstra = new Dijkstra(gamemap, start, end, allowDiagonals);
+}
 
+function dijkstra(){
+    pathfinder = new Dijkstra(gamemap, start, end, allowDiagonals);
+    steps = 0;
+    selectedAlgorithm = "Dijkstra";
+}
+
+function aStar(){
+    pathfinder = new AStarPathFinder(gamemap, start, end, allowDiagonals);
+    steps = 0;
+    selectedAlgorithm = "A*";
 }
 
 function setup() {
@@ -190,22 +201,23 @@ function setup() {
     console.log('A*');
 
     initaliseSearchExample(cols, rows);
+    runPauseButton = new Button("run", 430, 25, 50, 30, runpause);
+    runAStarButton = new Button("A*", 430, 90, 50, 30, aStar);
+    runBFSButton = new Button("BFS", 430, 120, 50, 30, runpause);
+    runDijkstraButton = new Button("Dijkstra", 430, 150, 50, 30, dijkstra);
+    runGreedyButton = new Button("Greedy", 430, 180, 50, 30, runpause);
+    runUniformButton = new Button("Uniform", 430, 210, 50, 30, runpause);
 
-    runPauseButton = new Button("A*", 430, 20, 50, 30, runpause);
-    runBFSButton = new Button("BFS", 430, 70, 50, 30, runpause);
-    runDijkstraButton = new Button("Dijkstra", 430, 120, 50, 30, runpause);
-    runGreedyButton = new Button("Greedy", 430, 170, 50, 30, runpause);
-    runUniformButton = new Button("Uniform", 430, 220, 50, 30, runpause);
-
+    uiElements.push(runAStarButton);
     uiElements.push(runPauseButton);
     uiElements.push(runDijkstraButton);
     uiElements.push(runBFSButton);
-    uiElements.push(runGreedyButton);
+    uiElements.push(runGreedyButton);   
     uiElements.push(runUniformButton);
 
-    uiElements.push(new Button("step", 480, 20, 50, 30, step));
-    uiElements.push(new Button("restart", 430, 270, 50, 30, restart));
-    uiElements.push(new SettingBox("AllowDiag", 430, 320, allowDiagonals, toggleDiagonals));
+    uiElements.push(new Button("step-by-step", 480, 25, 80, 30, step));
+    uiElements.push(new Button("new-map", 560, 25, 60, 30, restart));
+    uiElements.push(new SettingBox("AllowDiag", 430, 370, allowDiagonals, toggleDiagonals));
 
     recordTime("Setup");
 }
@@ -215,6 +227,7 @@ function searchStep() {
         startTime();
         var result = pathfinder.step();
         recordTime("AStar Iteration");
+        steps++;
         stepsAllowed--;
 
         switch (result) {
@@ -260,9 +273,9 @@ function draw() {
     background(255);
 
     doGUI();
-
+    text("Selected Algorithm - " + selectedAlgorithm, 430, 80);
     text("Search status - " + status, 10, 450);
-
+    text("Number of Steps - " + steps, 10, 500);
     startTime();
 
     drawMap();
