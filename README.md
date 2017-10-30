@@ -24,4 +24,4 @@ For this work, the following *search algorithms* were implemented
 - **Uniform:** Because the costs are always one, in this program uniform performs identically to BFS.
 
 ## Project Dependencies
-- **p5.js**:  Client-side library for creating graphic and interactive experiences. (![doc](https://p5js.org)) There is no need to install this library as it is already in the *library* folder.
+- **p5.js**:  Client-side library for creating graphic and interactive experiences. There is no need to install this library as it is already in the *library* folder.
