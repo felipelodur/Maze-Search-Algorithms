@@ -1,5 +1,3 @@
-// Maze generation Algorithm
-
 function MazeMap(cols, rows, x, y, w, h, allowDiagonals, percentWalls) {
   this.cols = cols;
   this.rows = rows;
@@ -21,9 +19,10 @@ function MazeMap(cols, rows, x, y, w, h, allowDiagonals, percentWalls) {
           this.grid[i][j] = new Spot(i, j, x + i * w /this.cols, y + j * h / this.rows, w / this.cols, h / this.rows, true, this.grid);
       }
   }
-  // collumn and row
-  var c = 0;
-  var r = 0;
+  
+  var c = 0; //column
+  var r = 0; //row
+
   var history = [[0, 0]];
 
   // As long as there is at least one location in history
@@ -53,10 +52,8 @@ function MazeMap(cols, rows, x, y, w, h, allowDiagonals, percentWalls) {
       check.push(down);
     }
 
-    // If there is a valid neighbor location
     if (check.length) {
       history.push([c, r]);
-      // We choose a random location to make a path
       var direction = check[Math.floor(Math.random() * check.length)];
       if (direction == left) {
         left.wall = false;
@@ -83,7 +80,7 @@ function MazeMap(cols, rows, x, y, w, h, allowDiagonals, percentWalls) {
       }
     }
     else {
-      // We backtrack to the last place in history
+      // Backtrack to the last place in history 
       // if there is no valid neighbor
       var next = history.pop();
       c = next[0];
@@ -91,8 +88,7 @@ function MazeMap(cols, rows, x, y, w, h, allowDiagonals, percentWalls) {
     }
   }
 
-  // Makes sure there's a possible exit to the maze
-  // Change me if you change the end location!
+  // End location fixed
   this.grid[cols - 1][rows - 2].wall = false;
   this.grid[cols - 2][rows - 1].wall = false;
   this.grid[this.end.x][this.end.y].wall = false;
