@@ -202,6 +202,12 @@ function bfs(){
     selectedAlgorithm = "BFS";
 }
 
+function uniform(){
+    pathfinder = new Uniform(gamemap, start, end, allowDiagonals);
+    steps = 0;
+    selectedAlgorithm = "Uniform";
+}
+
 function setup() {
     startTime();
 
@@ -218,7 +224,7 @@ function setup() {
     runBFSButton = new Button("BFS", 430, 120, 50, 30, bfs);
     runDFSButton = new Button("DFS", 430, 150, 50, 30, dfs);
     runGreedyButton = new Button("Greedy", 430, 180, 50, 30, greedy);
-    runUniformButton = new Button("Uniform", 430, 210, 50, 30, runpause);
+    runUniformButton = new Button("Uniform", 430, 210, 50, 30, uniform);
 
     uiElements.push(runAStarButton);
     uiElements.push(runPauseButton);
