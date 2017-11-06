@@ -15,7 +15,7 @@ Implementation of **Search Algorithms** in a *Maze*.
 
 ## Algorithms
 For this work, the following *search algorithms* were implemented
-- **A*:** Uses both g(n) and heuristics to perform a best-first search.
+- **A-Star:** Uses both g(n) and heuristics to perform a best-first search.
 - **BFS**: Breadth-first search performs a level-by-level search.
 - **DFS**: Depth-first search explores as far as possible and then performs *backtracking*.
 - **Greedy**: Locally optimal choice according to heuristics.
