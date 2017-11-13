@@ -2,7 +2,7 @@
 Coursework for Artificial Intelligence class @ PUC Minas. Developed by ![Felipe Coelho](https://github.com/Lodur03) and ![Daniel Gunna](https://github.com/DanielGunna)
 
 
-Implementation of **Search Algorithms** in a *Maze*.
+Implementation of **Search Algorithms** in a *Maze*.. Three different Maze Generation Algorithms were used: Random, PRIM and BSP. 
 
 ![alt text](https://i.imgur.com/bC8yRer.png)
 
